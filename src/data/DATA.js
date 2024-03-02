@@ -5,27 +5,5 @@ export const DATA = [
   { id: 4, name: 'Complete', color: 'text-[#173746]' },
 ];
 
-export const TODOS = [
-  {
-    name: 'Do a bicicle',
-    category: 1,
-  },
-  {
-    name: 'Do a bicicle',
-    category: 2,
-  },
-  {
-    name: 'Do a bicicle',
-    category: 3,
-  },
-  {
-    name: 'Do a bicicle',
-    category: 1,
-  },
-  {
-    name: 'Do a bicicle',
-    category: 4,
-  },
-];
 
-export default {DATA, TODOS};
+export default { DATA };

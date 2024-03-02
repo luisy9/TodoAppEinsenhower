@@ -1,51 +1,78 @@
-// import { DragDrop } from './DragDrop';
-import { DATA, TODOS } from '../data/DATA';
-import { DndContext } from '@dnd-kit/core';
-import { Droppable, Draggable } from '../hooks';
 import { useState } from 'react';
+import {
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core';
+import {
+    horizontalListSortingStrategy,
+    SortableContext,
+    sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
+import { SortableItem } from '../hooks'
+
+import { DATA } from '../data/DATA';
 
 export const StatesTodos = () => {
+    const [items, setItems] = useState([
+        { id: 1, name: 'Code JS', category: 1 },
+        { id: 2, name: 'Code React', category: 2 },
+        { id: 3, name: 'Code Angular', category: 3 },
+        { id: 4, name: 'Code Vue', category: 1 },
+        { id: 5, name: 'Code Astro', category: 4 },
+    ]);
 
-    const [isDropped, setIsDropped] = useState(false);
-
-    function handleDragEnd(event) {
-        if (event.over && event.over.id === 'droppable') {
-            setIsDropped(true);
-        }
-    }
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
 
     return (
-        <div className='px-16 py-10'>
-            <div className='flex gap-20'>
-                <DndContext onDragEnd={handleDragEnd}>
-                    {/* {!isDropped ? draggableMarkup : null} */}
-                    <div className=''>
-                        <Droppable>
-                            {
-                                DATA.map((names) => {
-                                    return (
-                                        <div className='rounded-lg w-full h-full' key={names.id}>
-                                            <p className={`text-3xl pb-5 ${names.color}`}>{names.name}</p>
-                                            <div className="" key={names.id}>
-                                                {!isDropped ? (
-                                                    TODOS.filter((todo) => todo.category === names.id).map(t => (
-                                                        <Draggable key={t.id}>{t.name}</Draggable>
-                                                    ))
-                                                ) : null}
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
-                            {/* {isDropped ? draggableMarkup : 'Drop here'} */}
-                        </Droppable>
+        <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+        >
+            <div className='flex gap-20 h-40'>
+                {DATA.map(data => (
+                    <div className='border rounded-lg px-10' key={data.id}>
+                        <h1 className={`text-4xl ${data.color}`}>{data.name}</h1>
+                        <SortableContext
+                            items={items.filter(task => task.category === data.id)}
+                            strategy={horizontalListSortingStrategy}
+                        >
+                            {items
+                                .filter(task => task.category === data.id)
+                                .map(task => (
+                                    <SortableItem key={task.id} id={task.id}>
+                                        {task.name}
+                                    </SortableItem>
+                                ))}
+                        </SortableContext>
                     </div>
-
-                </DndContext>
+                ))}
             </div>
+        </DndContext>
+    );
 
-        </div>
-    )
-}
+    function handleDragEnd(event) {
+        const { active, over } = event;
 
-export default StatesTodos
+        if (active.id !== over.id) {
+            setItems(items => {
+                const updatedItems = items.map(item =>
+                    item.id === active.id ? { ...item, category: over.id } : item
+                );
+
+                return updatedItems;
+            });
+        }
+    }
+};
+
+export default StatesTodos;
