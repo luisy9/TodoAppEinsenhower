@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Item } from './';
 
 export const DragAndDrop = () => {
+    const [addTask, setAddTask] = useState({});
     const [items, setItems] = useState([
         {
             id: 10,
@@ -77,6 +78,10 @@ export const DragAndDrop = () => {
         // localStorage.setItem('todos', JSON.stringify(items));
     }
 
+    const addTaskClick = (id) => {
+        // setAddTask(task => {...task} { id: { id: true } });
+    }
+
 
     return (
         <div className="flex gap-20">
@@ -84,11 +89,16 @@ export const DragAndDrop = () => {
                 boxes.map(box => {
                     return (
                         <div className="" key={box.id} onDragOver={() => draggingOver(event, box.id)} onDrop={() => onDrop(event, box.id)}>
-                            <h1 className={`${box.color} text-2xl pt-5`}>{box.name != 'delete' ? box.name : <div className=""></div>}
+                            <h1 className={`${box.color} text-2xl pt-5`}>{box.name != 'delete' ? box.name + ' ' : <div className=""></div>}
                                 {items.filter(item => (item.category === box.id)).length >= 0 && box.id != 5 ? items.filter(item => (item.category === box.id)).length : <div className=""></div>}</h1>
                             {
                                 items.map(item => item.category === box.id ?
                                     <Item key={item.id} items={item} box={box} onDragItem={onDragItem} /> : <></>)
+                            }
+                            {box.name != 'delete' ? <button className="text-gray-500 pt-1 text-sm hover:text-white hover:duration-300" onClick={() => addTaskClick(box.id)}>Add card +</button> : <></>}
+                            {
+                                
+                                // boxes.filter(box => box.id) ? <div className=""><h1>Hola</h1></div> : <></>
                             }
                         </div>
                     )
