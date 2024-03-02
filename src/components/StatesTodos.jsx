@@ -14,23 +14,6 @@ export const StatesTodos = () => {
         }
     }
 
-    // const draggableMarkup = (
-    //     <>
-    //         {
-    //             TODOS.map((todo, index) => {
-    //                 console.log(todo.category)
-    //                 if (DATA[index].id === todo.category) {
-    //                     return (
-    //                         <Draggable key={todo.id}>{todo.name}</Draggable>
-    //                     )
-    //                 }
-    //             })
-    //         }
-
-    //     </>
-
-    // );
-
     return (
         <div className='px-16 py-10'>
             <div className='flex gap-20'>
@@ -41,8 +24,8 @@ export const StatesTodos = () => {
                             {
                                 DATA.map((names) => {
                                     return (
-                                        <div className='border-2 rounded-lg border-red-500 w-full h-full' key={names.id}>
-                                            <p className={`text-3xl ${names.color}`}>{names.name}</p>
+                                        <div className='rounded-lg w-full h-full' key={names.id}>
+                                            <p className={`text-3xl pb-5 ${names.color}`}>{names.name}</p>
                                             <div className="" key={names.id}>
                                                 {!isDropped ? (
                                                     TODOS.filter((todo) => todo.category === names.id).map(t => (

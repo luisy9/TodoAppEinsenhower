@@ -10,7 +10,7 @@ export const Draggable = (props) => {
 
 
     return (
-        <button ref={setNodeRef} style={style} {...listeners} {...attributes} className='border-2 w-20'>
+        <button ref={setNodeRef} style={style} {...listeners} {...attributes} className='bg-[#4040403b] border border-[#404040] rounded-lg mb-2 w-60 py-2 text-start px-3 text-white'>
             {props.children}
         </button>
     );
