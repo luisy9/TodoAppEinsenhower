@@ -33,7 +33,7 @@ export const DragAndDrop = () => {
     const [boxes, setBoxes] = useState([
         {
             id: 1,
-            name: 'BlackBox',
+            name: 'Blacklog',
             color: 'text-[#727273]'
         },
         {
@@ -43,13 +43,17 @@ export const DragAndDrop = () => {
         },
         {
             id: 3,
-            name: 'in Process',
+            name: 'In progress',
             color: 'text-[#95CEFF]'
         },
         {
             id: 4,
             name: 'Complete',
-            color: 'text-[#173746]'
+            color: 'text-[#6BC7B9]'
+        },
+        {
+            id: 5,
+            name: 'delete',
         }
     ])
 
@@ -80,7 +84,8 @@ export const DragAndDrop = () => {
                 boxes.map(box => {
                     return (
                         <div className="" key={box.id} onDragOver={() => draggingOver(event, box.id)} onDrop={() => onDrop(event, box.id)}>
-                            <h1 className={`${box.color} text-3xl pt-5`}>{box.name}</h1>
+                            <h1 className={`${box.color} text-2xl pt-5`}>{box.name != 'delete' ? box.name : <div className=""></div>}
+                                {items.filter(item => (item.category === box.id)).length >= 0 && box.id != 5 ? items.filter(item => (item.category === box.id)).length : <div className=""></div>}</h1>
                             {
                                 items.map(item => item.category === box.id ?
                                     <Item key={item.id} items={item} box={box} onDragItem={onDragItem} /> : <></>)
