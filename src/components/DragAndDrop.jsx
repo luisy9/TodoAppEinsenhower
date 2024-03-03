@@ -5,6 +5,8 @@ export const DragAndDrop = () => {
     const [addTask, setAddTask] = useState([]);
     //Tenemos que diferenciar cual es el ultimo elemento escrito en el textarea
     const [newTask, setNewTask] = useState([]);
+    const [currentsTasks, setCurrentsTasks] = useState([]);
+    const [nameTask, setNameTask] = useState('');
 
     const [items, setItems] = useState([
         {
@@ -92,15 +94,15 @@ export const DragAndDrop = () => {
 
     //Close el Div para añadir una tarea
     const closeTaskClick = (id) => {
-        console.log(id)
         setAddTask(task => task.filter(t => t.id !== id))
     }
 
     //Añadimos una tarea al state, y tenemes que diferenciar bien que textarea se tiene que cerrar
-    const addTaskState = (id) => {
-        const newTaskAdd = newTask;
-        setItems(items => [...items, { id: items[items.length - 1].id + 1, name: newTaskAdd, category: id }]);
-        const theTaskToClose = addTask.filter(e => e.id !== id)[0].id;
+    const addTaskState = (event, id) => {
+        event.preventDefault();
+        setItems(items => [...items, { id: items.length + 1, name: nameTask, category: id }]);
+        // const theTaskToClose = addTask.filter(e => e.id !== id)
+        // console.log(theTaskToClose);
         // closeTaskClick(theTaskToClose);
     }
 
@@ -132,16 +134,19 @@ export const DragAndDrop = () => {
                                         return (
                                             <>
                                                 <div className="">
-                                                    <textarea onChange={() => setNewTask(event.target.value)} className="w-56 bg-[#322F44] h-20 border rounded-md border-[#A78BFA] 
+                                                    <form onSubmit={() => addTaskState(event, box.id)}>
+                                                        <textarea value={nameTask} onChange={(event) => setNameTask(event.target.value)} className="w-56 bg-[#322F44] h-20 border rounded-md border-[#A78BFA] 
                                                 focus:ring-1 focus:outline-none focus:ring-[#A78BFA] placeholder:text-[#C5A4C9] px-3 py-3" placeholder="Add new task..."></textarea>
-                                                    <div className="flex justify-end items-center gap-5 py-1">
-                                                        <div className="">
-                                                            <button className="text-[#A39E9E] text-sm hover:text-white hover:duration-300" onClick={() => closeTaskClick(e.id)}>Close</button>
+                                                        <div className="flex justify-end items-center gap-5 py-1">
+                                                            <div className="">
+                                                                <button className="text-[#A39E9E] text-sm hover:text-white hover:duration-300" onClick={() => closeTaskClick(e.id)}>Close</button>
+                                                            </div>
+                                                            <div className="">
+                                                                <button type="submit" className="bg-white px-3 py-1 border-none rounded-md text-sm hover:bg-slate-300">Add +</button>
+                                                            </div>
                                                         </div>
-                                                        <div className="">
-                                                            <button className="bg-white px-3 py-1 border-none rounded-md text-sm hover:bg-slate-300" onClick={() => addTaskState(box.id)}>Add +</button>
-                                                        </div>
-                                                    </div>
+                                                    </form>
+
                                                 </div>
                                             </>
                                         )
