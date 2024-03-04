@@ -4,7 +4,6 @@ import { Item } from './';
 export const DragAndDrop = () => {
     const [addTask, setAddTask] = useState([]);
     //Tenemos que diferenciar cual es el ultimo elemento escrito en el textarea
-    const [newTask, setNewTask] = useState([]);
     const [previusTask, setPreviusTask] = useState([]);
     const [nameTask, setNameTask] = useState([]);
 
