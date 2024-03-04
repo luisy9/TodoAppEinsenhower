@@ -63,9 +63,6 @@ export const DragAndDrop = () => {
         }
     ])
 
-    // useEffect(() => {
-    //     closeTaskClick(addTask);
-    // }, [items])
 
     const onDragItem = (event, id, category) => {
         event.dataTransfer.setData('itemID', id);
@@ -89,7 +86,7 @@ export const DragAndDrop = () => {
 
     //Habrimos el div para añadir una tarea
     const addTaskClick = (id) => {
-        setAddTask(task => [...task, { id: { [id]: true } }]);
+        setAddTask(task => [...task, { id: { [id]: 'hidden' } }]);
     }
 
     //Close el Div para añadir una tarea
@@ -122,7 +119,8 @@ export const DragAndDrop = () => {
                             {box.name != 'delete' ? (
                                 <div className="flex justify-start">
                                     <div className="">
-                                        <button className="text-gray-500 pt-3 px-2 text-sm font-medium hover:text-white hover:duration-300" onClick={() => addTaskClick(box.id)}>Add card +</button>
+                                        <button className={`text-gray-500 pt-3 px-2 text-sm font-medium hover:text-white hover:duration-300 
+                                        ${addTask.filter(e => Object.keys(e.id) == box.id).map(item => Object.values(item.id))}`} onClick={() => addTaskClick(box.id)}>Add card +</button>
                                     </div>
                                 </div>
 
@@ -133,7 +131,7 @@ export const DragAndDrop = () => {
                                     if (Object.keys(e.id) == box.id) {
                                         return (
                                             <>
-                                                <div className="">
+                                                <div className="pt-2">
                                                     <form onSubmit={() => addTaskState(event, box.id)}>
                                                         <textarea value={nameTask} onChange={(event) => setNameTask(event.target.value)} className="w-56 bg-[#322F44] h-20 border rounded-md border-[#A78BFA] 
                                                 focus:ring-1 focus:outline-none focus:ring-[#A78BFA] placeholder:text-[#C5A4C9] px-3 py-3" placeholder="Add new task..."></textarea>
