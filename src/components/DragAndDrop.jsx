@@ -93,7 +93,6 @@ export const DragAndDrop = () => {
 
     //Habrimos el div para añadir una tarea
     const addTaskClick = (id) => {
-        console.log('abierto ' + id)
         setAddTask(task => [...task, { id: { [id]: 'hidden' } }]);
     }
 
@@ -102,6 +101,7 @@ export const DragAndDrop = () => {
         //Si Object.keys(id)[0] recibe undefined si utilizara el id;
         const idBox = Object.keys(id)[0] | id;
         setAddTask(addTask.filter(t => Object.keys(t.id)[0] != idBox));
+        setNameTask({ ...nameTask, [id]: { id, text: '' } });
     }
 
     //Añadimos una tarea al state, y tenemes que diferenciar bien que textarea se tiene que cerrar
