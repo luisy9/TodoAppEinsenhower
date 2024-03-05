@@ -128,7 +128,7 @@ export const DragAndDrop = () => {
                                     {items.filter(item => (item.category === box.id)).length >= 0 && box.id != 5 ? items.filter(item => (item.category === box.id)).length : <></>}</h1>
 
                                 {
-                                    items.map(item => item.category === box.id ?
+                                    items.map(item => (item.category === box.id && item.category !== 5) ?
                                         <>
                                             <div className="">
                                                 <Item key={item.id} items={item} box={box} onDragItem={onDragItem} />
