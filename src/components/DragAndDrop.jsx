@@ -98,7 +98,7 @@ export const DragAndDrop = () => {
     const closeTaskClick = (id) => {
         //Si Object.keys(id)[0] recibe undefined si utilizara el id;
         const idBox = Object.keys(id)[0] | id;
-        setAddTask(addTask.filter(t => Object.keys(t.id)[0] != idBox));
+        setAddTask(addTask.filter(t => Object.keys(t.id)[0] !== idBox));
         resetInputTask(idBox);
     }
 
