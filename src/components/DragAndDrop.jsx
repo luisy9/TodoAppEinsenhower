@@ -65,9 +65,11 @@ export const DragAndDrop = () => {
     ])
 
 
-    useEffect(() => {
-        closeTaskClick(items[items.length - 1].category);
-    }, [items])
+    // useEffect(() => {
+    //     if (items) {
+    //         // closeTaskClick({[items[items.length - 1].category]: 'hidden'});
+    //     }
+    // }, [items])
 
     const onDragItem = (event, id, category) => {
         event.dataTransfer.setData('itemID', id);
@@ -91,23 +93,31 @@ export const DragAndDrop = () => {
 
     //Habrimos el div para añadir una tarea
     const addTaskClick = (id) => {
+        console.log('abierto ' + id)
         setAddTask(task => [...task, { id: { [id]: 'hidden' } }]);
     }
 
     //Close el Div para añadir una tarea
     const closeTaskClick = (id) => {
-        setAddTask(addTask.filter(t => Object.keys(t.id) != id));
+        //Si Object.keys(id)[0] recibe undefined si utilizara el id;
+        const idBox = Object.keys(id)[0] | id;
+        setAddTask(addTask.filter(t => Object.keys(t.id)[0] != idBox));
     }
 
     //Añadimos una tarea al state, y tenemes que diferenciar bien que textarea se tiene que cerrar
     const addTaskState = (event, id) => {
         event.preventDefault();
-        const previusTasks = nameTask[id].text
-        setItems(items => [...items, {
-            id
-                : items.sort((e, a) => a.id - e.id)[0].id + 1, name: previusTasks, category: id
-        }]
-            .sort((a, b) => a.id - b.id));
+        const previusTasks = nameTask[id]?.text;
+        const itemToClose = nameTask[id]?.boxId;
+        setItems(items => {
+            if (nameTask[id].text.length > 0) {
+                return [...items, {
+                    id: items.sort((e, a) => a.id - e.id)[0].id + 1, name: previusTasks, category: id
+                }].sort((a, b) => a.id - b.id)
+            }
+        })
+
+        closeTaskClick(itemToClose);
     }
 
     const onChangeValuesTextArea = (event, boxId) => {
