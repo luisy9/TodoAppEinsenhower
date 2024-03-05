@@ -65,11 +65,9 @@ export const DragAndDrop = () => {
     ])
 
 
-    // useEffect(() => {
-    //     if (items) {
-    //         // closeTaskClick({[items[items.length - 1].category]: 'hidden'});
-    //     }
-    // }, [items])
+    useEffect(() => {
+        
+    }, [addTask])
 
     const onDragItem = (event, id, category) => {
         event.dataTransfer.setData('itemID', id);
@@ -101,7 +99,11 @@ export const DragAndDrop = () => {
         //Si Object.keys(id)[0] recibe undefined si utilizara el id;
         const idBox = Object.keys(id)[0] | id;
         setAddTask(addTask.filter(t => Object.keys(t.id)[0] != idBox));
-        setNameTask({ ...nameTask, [id]: { id, text: '' } });
+        resetInputTask(idBox);
+    }
+
+    const resetInputTask = (idBox) => {
+        setNameTask({ ...nameTask, [idBox]: { idBox, text: '' } });
     }
 
     //Añadimos una tarea al state, y tenemes que diferenciar bien que textarea se tiene que cerrar
